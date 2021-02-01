@@ -47,6 +47,10 @@
                  owl:inverseOf :offersContractTo ;
                  rdfs:domain :Narrator ;
                  rdfs:range :Publisher ;
+                 owl:propertyChainAxiom ( :creates
+                                          :isReportedBy
+                                          :hasPublisher
+                                        ) ;
                  rdfs:comment "hasContractWith relates the Narrator to the Publisher with which it has a contract."@en ;
                  rdfs:label "hasContractWith"@en .
 
