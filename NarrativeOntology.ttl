@@ -73,6 +73,7 @@
 ###  http://www.semanticweb.org/exam/narrative#hasPublisher
 :hasPublisher rdf:type owl:ObjectProperty ;
               owl:inverseOf :publishes ;
+              rdf:type owl:FunctionalProperty ;
               rdfs:domain :Book ;
               rdfs:range :Publisher ;
               rdfs:comment "hasPublisher relates the Book to the Publisher who released it."@en ;
@@ -125,6 +126,7 @@
 ###  http://www.semanticweb.org/exam/narrative#isRelatedTo
 :isRelatedTo rdf:type owl:ObjectProperty ;
              owl:inverseOf :occursIn ;
+             rdf:type owl:InverseFunctionalProperty ;
              rdfs:domain dctypes:Location ;
              rdfs:range :Event ;
              rdfs:comment "isRelatedTo relates the Location to the Event which took place there."@en ;
@@ -141,7 +143,8 @@
 
 
 ###  http://www.semanticweb.org/exam/narrative#occursIn
-:occursIn rdf:type owl:ObjectProperty ;
+:occursIn rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
           rdfs:domain :Event ;
           rdfs:range dctypes:Location ;
           rdfs:comment "occursIn relates the Event to the Location in which takes place."@en ;
@@ -157,7 +160,8 @@
 
 
 ###  http://www.semanticweb.org/exam/narrative#publishes
-:publishes rdf:type owl:ObjectProperty ;
+:publishes rdf:type owl:ObjectProperty ,
+                    owl:InverseFunctionalProperty ;
            rdfs:domain :Publisher ;
            rdfs:range :Book ;
            rdfs:comment "publishes relates the Publisher to the Book he releases."@en ;
@@ -228,6 +232,7 @@
          rdf:type owl:FunctionalProperty ;
          rdfs:domain :Book ;
          rdfs:range xsd:string ;
+         owl:propertyDisjointWith :hasTitle ;
          rdfs:comment "hasISBN relates the Book to his ISBN code."@en ;
          rdfs:label "hasISBN"@en .
 
@@ -279,6 +284,11 @@
 
 ###  http://purl.org/dc/dcmitype/Location
 dctypes:Location rdf:type owl:Class ;
+                 rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                   owl:onProperty :hasName ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onDataRange xsd:string
+                                 ] ;
                  rdfs:comment "DCTYPES class to represent Location."@en ;
                  rdfs:label "Location"@en .
 
@@ -291,7 +301,33 @@ dctypes:Text rdf:type owl:Class ;
 
 ###  http://www.semanticweb.org/exam/narrative#Book
 :Book rdf:type owl:Class ;
-      rdfs:subClassOf dctypes:Text ;
+      rdfs:subClassOf dctypes:Text ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :reports ;
+                        owl:someValuesFrom :Narrative
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasPublisher ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onClass :Publisher
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasISBN ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasPrice ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:positiveInteger
+                      ] ,
+                      [ rdf:type owl:Restriction ;
+                        owl:onProperty :hasTitle ;
+                        owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                        owl:onDataRange xsd:string
+                      ] ;
+      owl:hasKey ( :hasISBN
+                 ) ;
       rdfs:comment "A Book is a collection of one or more Narratives."@en ;
       rdfs:label "Book"@en .
 
@@ -305,12 +341,32 @@ dctypes:Text rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#Character
 :Character rdf:type owl:Class ;
            rdfs:subClassOf :Partecipant ;
+           owl:disjointWith :Object ;
            rdfs:comment "Character represents a living partecipant."@en ;
            rdfs:label "Character"@en .
 
 
 ###  http://www.semanticweb.org/exam/narrative#Event
 :Event rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasPartecipant ;
+                         owl:someValuesFrom :Partecipant
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :occursIn ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass dctypes:Location
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :begins ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onDataRange xsd:dateTime
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :ends ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onDataRange xsd:dateTime
+                       ] ;
        rdfs:comment "An Event is an episode that happens in exactly one Location, it has a beginning and ending time and has at least one partecipating Character/Object."@en ;
        rdfs:label "Event"@en .
 
@@ -318,6 +374,7 @@ dctypes:Text rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#FictionalLocation
 :FictionalLocation rdf:type owl:Class ;
                    rdfs:subClassOf dctypes:Location ;
+                   owl:disjointWith :RealLocation ;
                    rdfs:comment "FictionalLocation represents an abstract Location."@en ;
                    rdfs:label "FictionalLocation"@en .
 
@@ -325,19 +382,36 @@ dctypes:Text rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#Human
 :Human rdf:type owl:Class ;
        rdfs:subClassOf :Character ;
+       owl:disjointWith :NotHuman ;
        rdfs:comment "Human represents a person."@en ;
        rdfs:label "Human"@en .
 
 
 ###  http://www.semanticweb.org/exam/narrative#Narrative
 :Narrative rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :createdBy ;
+                             owl:someValuesFrom :Narrator
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :isComposedOf ;
+                             owl:someValuesFrom :Event
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :isComposedOf ;
+                             owl:allValuesFrom :Event
+                           ] ;
            rdfs:comment "A Narrative is a collection of one or more Events created by one or more Narrators."@en ;
            rdfs:label "Narrative"@en .
 
 
 ###  http://www.semanticweb.org/exam/narrative#Narrator
 :Narrator rdf:type owl:Class ;
-          rdfs:subClassOf foaf:Person ;
+          rdfs:subClassOf foaf:Person ,
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasContractWith ;
+                            owl:someValuesFrom :Publisher
+                          ] ;
           rdfs:comment "A Narrator is a person who creates Narratives."@en ;
           rdfs:label "Narrator"@en .
 
@@ -358,12 +432,40 @@ dctypes:Text rdf:type owl:Class ;
 
 ###  http://www.semanticweb.org/exam/narrative#Partecipant
 :Partecipant rdf:type owl:Class ;
+             rdfs:subClassOf [ rdf:type owl:Restriction ;
+                               owl:onProperty :hasName ;
+                               owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                               owl:onDataRange xsd:string
+                             ] ;
              rdfs:comment "A Partecipant is someone/something that partecipates to an Event."@en ;
              rdfs:label "Partecipant"@en .
 
 
 ###  http://www.semanticweb.org/exam/narrative#Publisher
 :Publisher rdf:type owl:Class ;
+           rdfs:subClassOf [ rdf:type owl:Restriction ;
+                             owl:onProperty :publishes ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Book
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :sellsBookIn ;
+                             owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                             owl:onClass :Bookshop
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasID ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:positiveInteger
+                           ] ,
+                           [ rdf:type owl:Restriction ;
+                             owl:onProperty :hasName ;
+                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                             owl:onDataRange xsd:string
+                           ] ;
+           owl:hasKey ( :hasID
+                        :hasName
+                      ) ;
            rdfs:comment "A Publisher is an organization that publishes and sells Books."@en ;
            rdfs:label "Publisher"@en .
 
@@ -379,6 +481,23 @@ dctypes:Text rdf:type owl:Class ;
 foaf:Person rdf:type owl:Class ;
             rdfs:comment "FOAF class to represent people."@en ;
             rdfs:label "Person"@en .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( dctypes:Location
+                dctypes:Text
+                :Bookshop
+                :Event
+                :Narrative
+                :Partecipant
+                :Publisher
+                foaf:Person
+              )
+] .
 
 
 ###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
