@@ -488,6 +488,86 @@ foaf:Person rdf:type owl:Class ;
 
 
 #################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/exam/narrative#book1
+:book1 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher2 .
+
+
+###  http://www.semanticweb.org/exam/narrative#bookshop1
+:bookshop1 rdf:type owl:NamedIndividual ,
+                    :Bookshop .
+
+
+###  http://www.semanticweb.org/exam/narrative#bookshop2
+:bookshop2 rdf:type owl:NamedIndividual ,
+                    :Bookshop .
+
+
+###  http://www.semanticweb.org/exam/narrative#bookshop3
+:bookshop3 rdf:type owl:NamedIndividual ,
+                    :Bookshop .
+
+
+###  http://www.semanticweb.org/exam/narrative#bookshop4
+:bookshop4 rdf:type owl:NamedIndividual ,
+                    :Bookshop ;
+           :sellsBookOf :publisher3 .
+
+
+###  http://www.semanticweb.org/exam/narrative#bookshop5
+:bookshop5 rdf:type owl:NamedIndividual ,
+                    :Bookshop .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative1
+:narrative1 rdf:type owl:NamedIndividual ,
+                     :Narrative ;
+            :createdBy :narrator2 ;
+            :isReportedBy :book1 .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrator1
+:narrator1 rdf:type owl:NamedIndividual ,
+                    :Narrator ;
+           :hasContractWith :publisher1 .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrator2
+:narrator2 rdf:type owl:NamedIndividual ,
+                    :Narrator .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrator3
+:narrator3 rdf:type owl:NamedIndividual ,
+                    :Narrator .
+
+
+###  http://www.semanticweb.org/exam/narrative#publisher1
+:publisher1 rdf:type owl:NamedIndividual ,
+                     :Publisher ;
+            :sellsBookIn :bookshop1 ,
+                         :bookshop2 ;
+            :hasID "1200"^^xsd:positiveInteger ;
+            :hasName "Mondadori"^^xsd:string .
+
+
+###  http://www.semanticweb.org/exam/narrative#publisher2
+:publisher2 rdf:type owl:NamedIndividual ,
+                     :Publisher ;
+            :sellsBookIn :bookshop3 ,
+                         :bookshop5 .
+
+
+###  http://www.semanticweb.org/exam/narrative#publisher3
+:publisher3 rdf:type owl:NamedIndividual ,
+                     :Publisher .
+
+
+#################################################################
 #    General axioms
 #################################################################
 
@@ -501,6 +581,32 @@ foaf:Person rdf:type owl:Class ;
                 :Publisher
                 foaf:Person
               )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :bookshop1
+                        :bookshop2
+                        :bookshop3
+                        :bookshop4
+                        :bookshop5
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :narrator1
+                        :narrator2
+                        :narrator3
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :publisher1
+                        :publisher2
+                        :publisher3
+                      )
 ] .
 
 
