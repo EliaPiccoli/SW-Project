@@ -494,7 +494,40 @@ foaf:Person rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#book1
 :book1 rdf:type owl:NamedIndividual ,
                 :Book ;
-       :hasPublisher :publisher2 .
+       :hasPublisher :publisher2 ;
+       :hasISBN "3-598-21568-1"^^xsd:string ;
+       :hasPrice "25"^^xsd:positiveInteger ;
+       :hasTitle "The great book #1"^^xsd:string .
+
+
+###  http://www.semanticweb.org/exam/narrative#book2
+:book2 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :reports :narrative2 ,
+                :narrative3 ;
+       :hasISBN "3-598-21573-8"^^xsd:string ;
+       :hasPrice "30"^^xsd:positiveInteger ;
+       :hasTitle "The great book #2"^^xsd:string .
+
+
+###  http://www.semanticweb.org/exam/narrative#book3
+:book3 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#book4
+:book4 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#book5
+:book5 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#book6
+:book6 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#book7
+:book7 rdf:type owl:NamedIndividual .
 
 
 ###  http://www.semanticweb.org/exam/narrative#bookshop1
@@ -509,7 +542,8 @@ foaf:Person rdf:type owl:Class ;
 
 ###  http://www.semanticweb.org/exam/narrative#bookshop3
 :bookshop3 rdf:type owl:NamedIndividual ,
-                    :Bookshop .
+                    :Bookshop ;
+           :sellsBookOf :publisher3 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#bookshop4
@@ -523,11 +557,96 @@ foaf:Person rdf:type owl:Class ;
                     :Bookshop .
 
 
+###  http://www.semanticweb.org/exam/narrative#event1
+:event1 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :begins "2000-12-21T00:00:00"^^xsd:dateTime ;
+        :ends "2020-12-21T00:00:00"^^xsd:dateTime .
+
+
+###  http://www.semanticweb.org/exam/narrative#event2
+:event2 rdf:type owl:NamedIndividual ,
+                 :Event .
+
+
+###  http://www.semanticweb.org/exam/narrative#event3
+:event3 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :isPartOf :narrative2 .
+
+
+###  http://www.semanticweb.org/exam/narrative#event4
+:event4 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :isPartOf :narrative2 .
+
+
+###  http://www.semanticweb.org/exam/narrative#event5
+:event5 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#event6
+:event6 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#event7
+:event7 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#event8
+:event8 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#location1
+:location1 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#location2
+:location2 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#location3
+:location3 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#location4
+:location4 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#location5
+:location5 rdf:type owl:NamedIndividual .
+
+
 ###  http://www.semanticweb.org/exam/narrative#narrative1
 :narrative1 rdf:type owl:NamedIndividual ,
                      :Narrative ;
             :createdBy :narrator2 ;
+            :isComposedOf :event1 ;
             :isReportedBy :book1 .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative2
+:narrative2 rdf:type owl:NamedIndividual ,
+                     :Narrative .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative3
+:narrative3 rdf:type owl:NamedIndividual ,
+                     :Narrative ;
+            :isComposedOf :event2 ,
+                          :event4 .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative4
+:narrative4 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative5
+:narrative5 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#narrative6
+:narrative6 rdf:type owl:NamedIndividual .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrator1
@@ -546,6 +665,42 @@ foaf:Person rdf:type owl:Class ;
                     :Narrator .
 
 
+###  http://www.semanticweb.org/exam/narrative#narrator4
+:narrator4 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant1
+:partecipant1 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant2
+:partecipant2 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant3
+:partecipant3 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant4
+:partecipant4 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant5
+:partecipant5 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant6
+:partecipant6 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant7
+:partecipant7 rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/exam/narrative#partecipant8
+:partecipant8 rdf:type owl:NamedIndividual .
+
+
 ###  http://www.semanticweb.org/exam/narrative#publisher1
 :publisher1 rdf:type owl:NamedIndividual ,
                      :Publisher ;
@@ -558,13 +713,18 @@ foaf:Person rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#publisher2
 :publisher2 rdf:type owl:NamedIndividual ,
                      :Publisher ;
+            :publishes :book2 ;
             :sellsBookIn :bookshop3 ,
-                         :bookshop5 .
+                         :bookshop5 ;
+            :hasID "9000"^^xsd:positiveInteger ;
+            :hasName "Hoepli"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#publisher3
 :publisher3 rdf:type owl:NamedIndividual ,
-                     :Publisher .
+                     :Publisher ;
+            :hasID "420"^^xsd:positiveInteger ;
+            :hasName "Pearson"^^xsd:string .
 
 
 #################################################################
