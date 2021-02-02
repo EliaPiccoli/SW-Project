@@ -673,6 +673,7 @@ foaf:Person rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#event8
 :event8 rdf:type owl:NamedIndividual ,
                  :Event ;
+        :hasCharacter :partecipant8 ;
         :hasPartecipant :partecipant8 ;
         :begins "1492-10-12T00:00:00"^^xsd:dateTime ;
         :ends "1492-10-13T00:00:00"^^xsd:dateTime .
