@@ -197,6 +197,17 @@
              rdfs:label "sellsBookOf"@en .
 
 
+###  http://www.semanticweb.org/exam/narrative#writtenBy
+:writtenBy rdf:type owl:ObjectProperty ;
+           rdfs:domain :Book ;
+           rdfs:range :Narrator ;
+           owl:propertyChainAxiom ( :reports
+                                    :createdBy
+                                  ) ;
+           rdfs:comment "writtenBy relates the Book to the Narrator who wrote it."@en ;
+           rdfs:label "writtenBy"@en .
+
+
 #################################################################
 #    Data properties
 #################################################################
@@ -511,23 +522,57 @@ foaf:Person rdf:type owl:Class ;
 
 
 ###  http://www.semanticweb.org/exam/narrative#book3
-:book3 rdf:type owl:NamedIndividual .
+:book3 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher1 ;
+       :reports :narrative3 ,
+                :narrative4 ;
+       :hasISBN "3-598-21503-7"^^xsd:string ;
+       :hasPrice "15"^^xsd:positiveInteger ;
+       :hasTitle "A book"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#book4
-:book4 rdf:type owl:NamedIndividual .
+:book4 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher1 ;
+       :reports :narrative5 ;
+       :hasISBN "3-598-21508-8"^^xsd:string ;
+       :hasPrice "5"^^xsd:positiveInteger ;
+       :hasTitle "Best book ever"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#book5
-:book5 rdf:type owl:NamedIndividual .
+:book5 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher3 ;
+       :reports :narrative1 ,
+                :narrative3 ;
+       :hasISBN "3-598-21521-5"^^xsd:string ;
+       :hasPrice "13"^^xsd:positiveInteger ;
+       :hasTitle "The story of a book"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#book6
-:book6 rdf:type owl:NamedIndividual .
+:book6 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher3 ;
+       :reports :narrative6 ;
+       :hasISBN "3-598-21539-8"^^xsd:string ;
+       :hasPrice "50"^^xsd:positiveInteger ;
+       :hasTitle "I'm a Book"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#book7
-:book7 rdf:type owl:NamedIndividual .
+:book7 rdf:type owl:NamedIndividual ,
+                :Book ;
+       :hasPublisher :publisher3 ;
+       :reports :narrative1 ,
+                :narrative4 ,
+                :narrative5 ;
+       :hasISBN "3-598-21599-1"^^xsd:string ;
+       :hasPrice "21"^^xsd:positiveInteger ;
+       :hasTitle "Twenty-one"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#bookshop1
@@ -560,61 +605,109 @@ foaf:Person rdf:type owl:Class ;
 ###  http://www.semanticweb.org/exam/narrative#event1
 :event1 rdf:type owl:NamedIndividual ,
                  :Event ;
+        :hasCharacter :partecipant1 ;
+        :occursIn :location1 ;
         :begins "2000-12-21T00:00:00"^^xsd:dateTime ;
         :ends "2020-12-21T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event2
 :event2 rdf:type owl:NamedIndividual ,
-                 :Event .
+                 :Event ;
+        :hasCharacter :partecipant2 ;
+        :hasObject :partecipant3 ;
+        :occursIn :location2 ;
+        :begins "1950-05-10T00:00:00"^^xsd:dateTime ;
+        :ends "1969-02-17T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event3
 :event3 rdf:type owl:NamedIndividual ,
                  :Event ;
-        :isPartOf :narrative2 .
+        :hasCharacter :partecipant1 ;
+        :hasObject :partecipant3 ;
+        :isPartOf :narrative2 ;
+        :begins "1700-01-01T00:00:00"^^xsd:dateTime ;
+        :ends "1800-02-01T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event4
 :event4 rdf:type owl:NamedIndividual ,
                  :Event ;
-        :isPartOf :narrative2 .
+        :hasCharacter :partecipant4 ;
+        :isPartOf :narrative2 ;
+        :occursIn :location4 ;
+        :begins "1900-05-10T00:00:00"^^xsd:dateTime ;
+        :ends "1900-06-10T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event5
-:event5 rdf:type owl:NamedIndividual .
+:event5 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :hasObject :partecipant5 ;
+        :occursIn :location5 ;
+        :begins "3000-05-10T00:00:00"^^xsd:dateTime ;
+        :ends "4000-02-17T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event6
-:event6 rdf:type owl:NamedIndividual .
+:event6 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :hasCharacter :partecipant6 ;
+        :hasObject :partecipant5 ;
+        :occursIn :location5 ;
+        :begins "0000-12-25T00:00:00"^^xsd:dateTime ;
+        :ends "0033-04-04T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event7
-:event7 rdf:type owl:NamedIndividual .
+:event7 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :hasObject :partecipant3 ,
+                   :partecipant7 ;
+        :occursIn :location1 ;
+        :begins "1234-05-06T00:00:00"^^xsd:dateTime ;
+        :ends "9876-05-04T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#event8
-:event8 rdf:type owl:NamedIndividual .
+:event8 rdf:type owl:NamedIndividual ,
+                 :Event ;
+        :hasPartecipant :partecipant8 ;
+        :begins "1492-10-12T00:00:00"^^xsd:dateTime ;
+        :ends "1492-10-13T00:00:00"^^xsd:dateTime .
 
 
 ###  http://www.semanticweb.org/exam/narrative#location1
-:location1 rdf:type owl:NamedIndividual .
+:location1 rdf:type owl:NamedIndividual ,
+                    :RealLocation ;
+           :hasName "Burundi"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#location2
-:location2 rdf:type owl:NamedIndividual .
+:location2 rdf:type owl:NamedIndividual ,
+                    :RealLocation ;
+           :isRelatedTo :event8 ;
+           :hasName "Pisa, Italy"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#location3
-:location3 rdf:type owl:NamedIndividual .
+:location3 rdf:type owl:NamedIndividual ,
+                    :FictionalLocation ;
+           :isRelatedTo :event3 ;
+           :hasName "Olimpo"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#location4
-:location4 rdf:type owl:NamedIndividual .
+:location4 rdf:type owl:NamedIndividual ,
+                    :RealLocation ;
+           :hasName "Milky Way"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#location5
-:location5 rdf:type owl:NamedIndividual .
+:location5 rdf:type owl:NamedIndividual ,
+                    :FictionalLocation ;
+           :hasName "AI world"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrative1
@@ -627,7 +720,10 @@ foaf:Person rdf:type owl:Class ;
 
 ###  http://www.semanticweb.org/exam/narrative#narrative2
 :narrative2 rdf:type owl:NamedIndividual ,
-                     :Narrative .
+                     :Narrative ;
+            :createdBy :narrator4 ;
+            :isComposedOf :event1 ,
+                          :event2 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrative3
@@ -638,20 +734,29 @@ foaf:Person rdf:type owl:Class ;
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrative4
-:narrative4 rdf:type owl:NamedIndividual .
+:narrative4 rdf:type owl:NamedIndividual ,
+                     :Narrative ;
+            :createdBy :narrator2 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrative5
-:narrative5 rdf:type owl:NamedIndividual .
+:narrative5 rdf:type owl:NamedIndividual ,
+                     :Narrative ;
+            :createdBy :narrator4 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrative6
-:narrative6 rdf:type owl:NamedIndividual .
+:narrative6 rdf:type owl:NamedIndividual ,
+                     :Narrative ;
+            :createdBy :narrator3 ;
+            :isComposedOf :event5 ,
+                          :event6 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrator1
 :narrator1 rdf:type owl:NamedIndividual ,
                     :Narrator ;
+           :creates :narrative3 ;
            :hasContractWith :publisher1 .
 
 
@@ -662,48 +767,70 @@ foaf:Person rdf:type owl:Class ;
 
 ###  http://www.semanticweb.org/exam/narrative#narrator3
 :narrator3 rdf:type owl:NamedIndividual ,
-                    :Narrator .
+                    :Narrator ;
+           :creates :narrative6 .
 
 
 ###  http://www.semanticweb.org/exam/narrative#narrator4
-:narrator4 rdf:type owl:NamedIndividual .
+:narrator4 rdf:type owl:NamedIndividual ,
+                    :Narrator .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant1
-:partecipant1 rdf:type owl:NamedIndividual .
+:partecipant1 rdf:type owl:NamedIndividual ,
+                       :Human ;
+              :isCharacterOf :event1 ;
+              :hasName "Human#1"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant2
-:partecipant2 rdf:type owl:NamedIndividual .
+:partecipant2 rdf:type owl:NamedIndividual ,
+                       :Human ;
+              :isPartecipantOf :event2 ;
+              :hasName "Human#2"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant3
-:partecipant3 rdf:type owl:NamedIndividual .
+:partecipant3 rdf:type owl:NamedIndividual ,
+                       :Object ;
+              :isObjectOf :event7 ;
+              :hasName "Object#1"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant4
-:partecipant4 rdf:type owl:NamedIndividual .
+:partecipant4 rdf:type owl:NamedIndividual ,
+                       :NotHuman ;
+              :hasName "AI#1"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant5
-:partecipant5 rdf:type owl:NamedIndividual .
+:partecipant5 rdf:type owl:NamedIndividual ,
+                       :Object ;
+              :hasName "Object#2"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant6
-:partecipant6 rdf:type owl:NamedIndividual .
+:partecipant6 rdf:type owl:NamedIndividual ,
+                       :NotHuman ;
+              :hasName "AI#2"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant7
-:partecipant7 rdf:type owl:NamedIndividual .
+:partecipant7 rdf:type owl:NamedIndividual ,
+                       :Object ;
+              :hasName "Object#3"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#partecipant8
-:partecipant8 rdf:type owl:NamedIndividual .
+:partecipant8 rdf:type owl:NamedIndividual ,
+                       :Human ;
+              :hasName "Human#3"^^xsd:string .
 
 
 ###  http://www.semanticweb.org/exam/narrative#publisher1
 :publisher1 rdf:type owl:NamedIndividual ,
                      :Publisher ;
+            :offersContractTo :narrator1 ;
             :sellsBookIn :bookshop1 ,
                          :bookshop2 ;
             :hasID "1200"^^xsd:positiveInteger ;
@@ -745,6 +872,18 @@ foaf:Person rdf:type owl:Class ;
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :book1
+                        :book2
+                        :book3
+                        :book4
+                        :book5
+                        :book6
+                        :book7
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :bookshop1
                         :bookshop2
                         :bookshop3
@@ -755,9 +894,57 @@ foaf:Person rdf:type owl:Class ;
 
 
 [ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :event1
+                        :event2
+                        :event3
+                        :event4
+                        :event5
+                        :event6
+                        :event7
+                        :event8
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :location1
+                        :location2
+                        :location3
+                        :location4
+                        :location5
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :narrative1
+                        :narrative2
+                        :narrative3
+                        :narrative4
+                        :narrative5
+                        :narrative6
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( :narrator1
                         :narrator2
                         :narrator3
+                        :narrator4
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :partecipant1
+                        :partecipant2
+                        :partecipant3
+                        :partecipant4
+                        :partecipant5
+                        :partecipant6
+                        :partecipant7
+                        :partecipant8
                       )
 ] .
 
