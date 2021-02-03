@@ -1,0 +1,106 @@
+prefix : <http://www.semanticweb.org/exam/narrative#>
+
+SELECT ?location (COUNT(?event) AS ?numEvent)
+WHERE {
+    ?location a :RealLocation .
+    ?event a :Event ;
+        :occursIn ?location .
+}
+GROUP BY ?location
+
+# -----------------------------------------------------
+# location	                                        numEvent
+# <http://www.semanticweb.org/exam/narrative#location1>	2
+# <http://www.semanticweb.org/exam/narrative#location2>	2
+# <http://www.semanticweb.org/exam/narrative#location4>	1
+# -----------------------------------------------------
+
+prefix : <http://www.semanticweb.org/exam/narrative#>
+
+SELECT ?book
+WHERE {
+    ?book a :Book .
+    ?publisher a :Publisher ;
+        :publishes ?book ;
+        :hasID ?publisherID .
+    FILTER ( ?publisherID < 5000 )
+}
+
+# -----------------------------------------------------
+# book
+# <http://www.semanticweb.org/exam/narrative#book3>
+# <http://www.semanticweb.org/exam/narrative#book4>
+# <http://www.semanticweb.org/exam/narrative#book5>
+# <http://www.semanticweb.org/exam/narrative#book6>
+# <http://www.semanticweb.org/exam/narrative#book7>
+# -----------------------------------------------------
+
+prefix : <http://www.semanticweb.org/exam/narrative#>
+
+SELECT ?event
+WHERE {
+    ?event a :Event .
+    FILTER NOT EXISTS {
+        ?partecipant a :Human ;
+            :isCharacterOf ?event .
+    }
+}
+
+# -----------------------------------------------------
+# event
+# <http://www.semanticweb.org/exam/narrative#event4>
+# <http://www.semanticweb.org/exam/narrative#event5>
+# <http://www.semanticweb.org/exam/narrative#event6>
+# <http://www.semanticweb.org/exam/narrative#event7>
+# -----------------------------------------------------
+
+prefix : <http://www.semanticweb.org/exam/narrative#>
+
+SELECT ?book ?bookISBN ?bookTitle ?publisher (COUNT(?narrative) AS ?numNarratives)
+WHERE {
+    ?book a :Book ;
+        :hasISBN ?bookISBN ;
+        :hasTitle ?bookTitle ;
+        :reports ?narrative ;
+        :hasPublisher ?publisher .
+    ?narrative a :Narrative .
+    ?publisher a :Publisher .
+    }
+GROUP BY ?book ?bookISBN ?bookTitle ?publisher
+
+# -----------------------------------------------------
+# book	                                            bookISBN	    bookTitle	        publisher	                                            numNarratives
+# <http://www.semanticweb.org/exam/narrative#book1>	3-598-21568-1	The great book #1	<http://www.semanticweb.org/exam/narrative#publisher2>	1
+# <http://www.semanticweb.org/exam/narrative#book5>	3-598-21521-5	The story of a book	<http://www.semanticweb.org/exam/narrative#publisher3>	2
+# <http://www.semanticweb.org/exam/narrative#book7>	3-598-21599-1	Twenty-one	        <http://www.semanticweb.org/exam/narrative#publisher3>	3
+# <http://www.semanticweb.org/exam/narrative#book2>	3-598-21573-8	The great book #2	<http://www.semanticweb.org/exam/narrative#publisher2>	2
+# <http://www.semanticweb.org/exam/narrative#book3>	3-598-21503-7	A book	            <http://www.semanticweb.org/exam/narrative#publisher1>	2
+# <http://www.semanticweb.org/exam/narrative#book4>	3-598-21508-8	Best book ever	    <http://www.semanticweb.org/exam/narrative#publisher1>	1
+# <http://www.semanticweb.org/exam/narrative#book6>	3-598-21539-8	I'm a Book	        <http://www.semanticweb.org/exam/narrative#publisher3>	1
+# -----------------------------------------------------
+
+prefix : <http://www.semanticweb.org/exam/narrative#>
+
+SELECT DISTINCT ?event
+WHERE {
+    ?event a :Event .
+    {
+        ?human a :Human ;
+            :isCharacterOf ?event .
+    }
+    UNION
+    {
+        ?location a :RealLocation ;
+            :isRelatedTo ?event .
+    }
+}
+
+# -----------------------------------------------------
+# event
+# <http://www.semanticweb.org/exam/narrative#event4>
+# <http://www.semanticweb.org/exam/narrative#event7>
+# <http://www.semanticweb.org/exam/narrative#event1>
+# <http://www.semanticweb.org/exam/narrative#event2>
+# <http://www.semanticweb.org/exam/narrative#event3>
+# <http://www.semanticweb.org/exam/narrative#event8>
+# -----------------------------------------------------
